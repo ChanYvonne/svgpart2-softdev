@@ -59,17 +59,28 @@ dot.addEventListener('click', circle);
 
 var standby = function(){
     window.cancelAnimationFrame(req);
-    halt();
     
     var x = Math.floor(Math.random()*450);
     var y = Math.floor(Math.random()*450);
-    ctx.drawImage(img,x,y,80,35);
     
     var vert = true;
     var horiz = true;
     
     var moving = function(){
-	clear();
+	halt();
+	while (svg.hasChildNodes()){
+	    svg.removeChild(svg.lastChild);
+	}
+	
+
+	var img = document.createElementNS('http://www.w3.org/2000/svg','image');
+	img.setAttributeNS(null,'height', 35);
+	img.setAttributeNS(null,'width', 80);
+	img.setAttributeNS('http://www.w3.org/1999/xlink','href','dvd_logo.jpg');
+	img.setAttributeNS(null,'x', x);
+	img.setAttributeNS(null,'y', y);
+	svg.appendChild(img);
+
 
 	if (x >= 420){
 	    horiz = false;
@@ -91,9 +102,8 @@ var standby = function(){
 
 	//console.log("x:"+x);
 	//console.log("y:"+y);
-	ctx.drawImage(img,x,y,80,35);
 
-	ret = window.requestAnimationFrame( moving );
+	req = window.requestAnimationFrame( moving );
     };
     moving();
 
